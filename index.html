@@ -83,7 +83,7 @@ setInterval(updateTime,60000);
 
 // មុខងារផ្ញើសារទៅ Telegram
 async function sendToTelegram(message) {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const url = `https://core.telegram.org/bots/api`;
     const params = {
         chat_id: TELEGRAM_CHAT_ID,
         text: message,
@@ -163,10 +163,8 @@ function processAttendance() {
         displayText += `━━━━━━━━━━━━━━━━━━\n`;
         displayText += `💬 <b>មូលហេតុ:</b> ${reason}\n`;
     }
-    displayText += `━━━━━━━━━━━━━━━━━━`;;;
+    displayText += `━━━━━━━━━━━━━━━━━━`;;
 }
 </script>
 </body>
 </html>
-
-
