@@ -46,7 +46,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 // កំណត់ព័ត៌មាន Telegram
-const TELEGRAM_BOT_TOKEN = "8146471538:AAFXcPD4EiNylUbiZUMvghizhfY-NWw3QU8";
+const TELEGRAM_BOT_TOKEN = "8242266919:AAGE6uMJ_-UvM-3KBZkJVFhJyTLvcTVW5tQ";
 const TELEGRAM_CHAT_ID = "1346632543";
 
 const OFFICIAL_IN = "07:15";
@@ -137,33 +137,36 @@ function processAttendance() {
     });
 
     // ៣. ផ្ញើទៅ Telegram
-    sendToTelegram(displayText);// ១. រៀបចំសារឱ្យមានសណ្តាប់ធ្នាប់ និងប្រើ Emoji
-    let statusLabel = type === 'Check-In' ? '✅ ចូលធ្វើការ (Check-In)' : '🚪 ចេញពីធ្វើការ (Check-Out)';
-    let reportTitle = "<b>📝 របាយការណ៍វត្តមានបុគ្គលិក</b>";
-
-    // បន្ថែមការសម្គាល់ មកយឺត ឬ ចេញមុន លើចំណងជើង
-    if (type === "Check-In" && time > "07:15") {
-        reportTitle = "<b>⚠️ របាយការណ៍មកយឺត (LATE)</b>";
-        statusLabel = "⏰ មកយឺត (Late In)";
-    } else if (type === "Check-Out" && time < "17:15") {
-        reportTitle = "<b>⚠️ របាយការណ៍ចេញមុន (EARLY)</b>";
-        statusLabel = "🏃 ចេញមុន (Early Out)";
-    }
-
-    let displayText = `${reportTitle}\n`;
-    displayText += `━━━━━━━━━━━━━━━━━━\n`;
-    displayText += `👤 <b>ឈ្មោះ:</b> ${name}\n`;
-    displayText += `💼 <b>តួនាទី:</b> ${role}\n`;
-    displayText += `📍 <b>ស្ថានភាព:</b> ${statusLabel}\n`;
-    displayText += `📅 <b>ថ្ងៃទី:</b> ${date}\n`;
-    displayText += `🕒 <b>ម៉ោង:</b> ${time}\n`;
+    sendToTelegram(displayText);
+    alert("ទិន្នន័យត្រូវបានបញ្ជូនទៅ Telegram និងបង្កើត QR រួចរាល់!");
+}
+    async function sendToTelegram(message) {
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
     
-    // បង្ហាញមូលហេតុតែក្នុងករណីមានបំពេញប៉ុណ្ណោះ
-    if(reason) {
-        displayText += `━━━━━━━━━━━━━━━━━━\n`;
-        displayText += `💬 <b>មូលហេតុ:</b> ${reason}\n`;
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: "HTML"
+            })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            // បើផ្ញើមិនចេញ វានឹងប្រាប់ពីមូលហេតុ
+            alert("Telegram Error: " + data.description);
+            console.error("Detail:", data);
+        } else {
+            console.log("Success:", data);
+        }
+    } catch (error) {
+        alert("Network Error: មិនអាចភ្ជាប់ទៅ Telegram បានទេ!");
+        console.error("Fetch Error:", error);
     }
-    displayText += `━━━━━━━━━━━━━━━━━━`;;
 }
 </script>
 </body>
