@@ -138,8 +138,22 @@ function processAttendance() {
 
     // ៣. ផ្ញើទៅ Telegram
     sendToTelegram(displayText);
-    alert("ទិន្នន័យត្រូវបានបញ្ជូនទៅ Telegram និងបង្កើត QR រួចរាល់!");
+    alert// ១. បង្កើតអត្ថបទសម្រាប់ Telegram (រៀបចំឱ្យស្អាតដូចក្នុងរូបភាព)
+    let displayText = `🔔 <b>របាយការណ៍វត្តមានបុគ្គលិក</b>\n`;
+    displayText += `━━━━━━━━━━━━━━━━━━\n`;
+    displayText += `👤 <b>ឈ្មោះបគ្គលិក:</b>  ${name}\n`;
+    displayText += `💼 <b>តួនាទី:</b>      ${role}\n`;
+    displayText += `📍 <b>ស្ថានភាព:</b>    ${type === 'checkin' ? '✅ Check-in' : '🚪 Check-out'}\n`;
+    displayText += `📅 <b>ថ្ងៃខែ:</b>      ${date}\n`;
+    displayText += `🕒 <b>ម៉ោង:</b>      ${time}\n`;
+    
+    if(reason) {
+        displayText += `━━━━━━━━━━━━━━━━━━\n`;
+        displayText += `⚠️ <b>មូលហេតុ:</b>   ${reason}\n`;
+    }
+    displayText += `━━━━━━━━━━━━━━━━━━`;;
 }
 </script>
 </body>
 </html>
+
