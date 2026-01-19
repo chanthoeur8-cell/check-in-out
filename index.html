@@ -137,23 +137,36 @@ function processAttendance() {
     });
 
     // ៣. ផ្ញើទៅ Telegram
-    sendToTelegram(displayText);
-    alert// ១. បង្កើតអត្ថបទសម្រាប់ Telegram (រៀបចំឱ្យស្អាតដូចក្នុងរូបភាព)
-    let displayText = `🔔 <b>របាយការណ៍វត្តមានបុគ្គលិក</b>\n`;
+    sendToTelegram(displayText);// ១. រៀបចំសារឱ្យមានសណ្តាប់ធ្នាប់ និងប្រើ Emoji
+    let statusLabel = type === 'Check-In' ? '✅ ចូលធ្វើការ (Check-In)' : '🚪 ចេញពីធ្វើការ (Check-Out)';
+    let reportTitle = "<b>📝 របាយការណ៍វត្តមានបុគ្គលិក</b>";
+
+    // បន្ថែមការសម្គាល់ មកយឺត ឬ ចេញមុន លើចំណងជើង
+    if (type === "Check-In" && time > "07:15") {
+        reportTitle = "<b>⚠️ របាយការណ៍មកយឺត (LATE)</b>";
+        statusLabel = "⏰ មកយឺត (Late In)";
+    } else if (type === "Check-Out" && time < "17:15") {
+        reportTitle = "<b>⚠️ របាយការណ៍ចេញមុន (EARLY)</b>";
+        statusLabel = "🏃 ចេញមុន (Early Out)";
+    }
+
+    let displayText = `${reportTitle}\n`;
     displayText += `━━━━━━━━━━━━━━━━━━\n`;
-    displayText += `👤 <b>ឈ្មោះបគ្គលិក:</b>  ${name}\n`;
-    displayText += `💼 <b>តួនាទី:</b>      ${role}\n`;
-    displayText += `📍 <b>ស្ថានភាព:</b>    ${type === 'checkin' ? '✅ Check-in' : '🚪 Check-out'}\n`;
-    displayText += `📅 <b>ថ្ងៃខែ:</b>      ${date}\n`;
-    displayText += `🕒 <b>ម៉ោង:</b>      ${time}\n`;
+    displayText += `👤 <b>ឈ្មោះ:</b> ${name}\n`;
+    displayText += `💼 <b>តួនាទី:</b> ${role}\n`;
+    displayText += `📍 <b>ស្ថានភាព:</b> ${statusLabel}\n`;
+    displayText += `📅 <b>ថ្ងៃទី:</b> ${date}\n`;
+    displayText += `🕒 <b>ម៉ោង:</b> ${time}\n`;
     
+    // បង្ហាញមូលហេតុតែក្នុងករណីមានបំពេញប៉ុណ្ណោះ
     if(reason) {
         displayText += `━━━━━━━━━━━━━━━━━━\n`;
-        displayText += `⚠️ <b>មូលហេតុ:</b>   ${reason}\n`;
+        displayText += `💬 <b>មូលហេតុ:</b> ${reason}\n`;
     }
-    displayText += `━━━━━━━━━━━━━━━━━━`;;
+    displayText += `━━━━━━━━━━━━━━━━━━`;;;
 }
 </script>
 </body>
 </html>
+
 
